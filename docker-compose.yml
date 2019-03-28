@@ -1,16 +1,29 @@
-version: '2'
-
+version: "3.7"
 services:
-  fpm:
-    build: ..
-    container_name: test-fpm
-    volumes:
-      - ./symfony-standard:/application
-  nginx:
-    image: nginx:alpine
-    container_name: test-nginx
+  docker-nginx:
+    image: docker-nginx
+    hostname: docker-nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: docker-nginx
     ports:
       - 80:80
     volumes:
-      - ./symfony-standard:/application
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./www:/srv/www
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - www
+  docker-phpfpm:
+    image: docker-phpfpm
+    hostname: docker-phpfpm
+    build:
+      context: ./phpfpm
+      dockerfile: Dockerfile
+    container_name: docker-phpfpm
+    volumes:
+      - ./www:/srv/www
+    networks:
+      - www
+networks:
+  www:
