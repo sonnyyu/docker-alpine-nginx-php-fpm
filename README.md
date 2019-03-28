@@ -1,3 +1,5 @@
-# docker-nginx-phpfpm-alpine
+docker-compose config
 
-Basic Docker setup for running Nginx + PHP-FPM on Alpine Linux.
+docker-compose build
+
+docker-compose up -d
